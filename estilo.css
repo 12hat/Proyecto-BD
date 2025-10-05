@@ -1,0 +1,27 @@
+/* --- Estilos para QMenu (Menús Desplegables) --- */
+QMenu {
+    background-color: #ffffff; /* Fondo blanco */
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    padding: 5px;
+}
+QMenu::item {
+    padding: 8px 25px 8px 15px; /* Relleno para que se vea más grande */
+    color: #2c3e50;
+    font-size: 14px;
+}
+QMenu::item:selected {
+    background-color: #3498db;
+    color: white;
+    border-radius: 3px;
+}
+
+/* Ajuste al botón de navegación para que se vea como menú */
+#header_buttons_container QPushButton {
+    /* Eliminamos el estilo checkable para botones con menú */
+    border-bottom: 2px solid transparent; 
+}
+#header_buttons_container QPushButton:hover {
+    background-color: #ecf0f1;
+    border-bottom: 2px solid #bdc3c7; /* Indicador sutil al pasar el mouse */
+}
