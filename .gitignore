@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# SQLite database file (elige mantenerlo fuera del repo)
+empresa.db
+
+# PyInstaller
+dist/
+build/
+
+# Editor directories and files
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Mac / Linux
+.DS_Store
+*.swp
+
+# Logs
+*.log
