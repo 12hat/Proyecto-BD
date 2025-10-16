@@ -524,6 +524,9 @@ class OTWindow(QWidget):
         self.ot_table.setHorizontalHeaderLabels([
             "OT", "Asesor de Ventas", "No. de Piezas", "Fecha de Pedido", "Seguro", "Estado"
         ])
+
+        self.ot_table.cellDoubleClicked.connect(self.show_ot_details)
+
         
         self.load_ot_data()
         
@@ -578,6 +581,27 @@ class OTWindow(QWidget):
         add_ot_window = AddOTWindow(stylesheet)
         if add_ot_window.exec() == QDialog.DialogCode.Accepted:
             self.load_ot_data()
+# Dentro de la clase OTWindow:
+    
+    def show_ot_details(self, row, column):
+        """Muestra una ventana de diálogo con los detalles de las partes de la OT al hacer doble clic."""
+        
+        # Obtenemos el número de OT de la columna 0 (OT) de la fila clickeada
+        ot_number_item = self.ot_table.item(row, 0) 
+        
+        if ot_number_item:
+            ot_number = ot_number_item.text()
+            
+            # Obtener el stylesheet de la ventana principal
+            if self.is_dialog:
+                stylesheet = self.styleSheet()
+            else:
+                # Accede al stylesheet de la ventana principal
+                stylesheet = self.parent().styleSheet() 
+            
+            # Abrir el diálogo con los detalles
+            details_dialog = OTDetailsDialog(ot_number, stylesheet)
+            details_dialog.exec()
 
 class PartsListWindow(QWidget):
     # ... (código sin cambios relevantes para este cambio) ...
@@ -775,6 +799,73 @@ class AdvisorListWindow(QWidget):
             if not self.is_dialog and isinstance(self.parent(), MainWindow):
                 self.parent().update_advisor_filter_menu()
                 
+class OTDetailsDialog(QDialog):
+    """Ventana de diálogo que muestra las partes asociadas a una OT específica."""
+    def __init__(self, ot_number, stylesheet):
+        super().__init__()
+        self.ot_number = ot_number
+        self.setWindowTitle(f"Detalles de Partes - OT: {self.ot_number}")
+        self.setGeometry(200, 200, 700, 500)
+        self.setStyleSheet(stylesheet)
+        
+        layout = QVBoxLayout()
+        
+        title_label = QLabel(f"Partes Asociadas a OT: {self.ot_number}")
+        title_label.setObjectName("title_label")
+        layout.addWidget(title_label)
+        
+        self.parts_table = QTableWidget()
+        self.parts_table.setColumnCount(4)
+        self.parts_table.setHorizontalHeaderLabels(["No. de Parte", "Nombre", "Cantidad", "Estado"])
+        # Evitar que el usuario edite la tabla de detalles
+        self.parts_table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers) 
+        
+        self.load_parts_data()
+        
+        layout.addWidget(self.parts_table)
+        
+        close_button = QPushButton("Cerrar")
+        close_button.clicked.connect(self.accept)
+        layout.addWidget(close_button)
+        
+        self.setLayout(layout)
+
+    def load_parts_data(self):
+        """Carga las partes asociadas a la OT seleccionada desde la DB."""
+        conn = sqlite3.connect(DATABASE_NAME)
+        cursor = conn.cursor()
+        
+        # Consulta para unir las tablas ots, ot_parts y parts
+        query = """
+        SELECT p.part_number, p.part_name, op.quantity, op.status
+        FROM ot_parts AS op
+        JOIN parts AS p ON op.part_id = p.id
+        JOIN ots AS o ON op.ot_id = o.id
+        WHERE o.ot_number = ?
+        """
+        
+        cursor.execute(query, (self.ot_number,))
+        parts_data = cursor.fetchall()
+        conn.close()
+        
+        self.parts_table.setRowCount(len(parts_data))
+        
+        # Mensaje si no hay partes
+        if not parts_data:
+            self.parts_table.setRowCount(1)
+            self.parts_table.setItem(0, 0, QTableWidgetItem("No hay partes registradas para esta OT."))
+            self.parts_table.setSpan(0, 0, 1, 4) 
+            return
+            
+        for row_idx, row_data in enumerate(parts_data):
+            self.parts_table.setItem(row_idx, 0, QTableWidgetItem(row_data[0]))
+            self.parts_table.setItem(row_idx, 1, QTableWidgetItem(row_data[1]))
+            self.parts_table.setItem(row_idx, 2, QTableWidgetItem(str(row_data[2])))
+            self.parts_table.setItem(row_idx, 3, QTableWidgetItem(row_data[3]))
+            
+        self.parts_table.resizeColumnsToContents()
+        self.parts_table.setColumnWidth(1, 250) # Para que el nombre de la parte se vea bien
+
 # --- CLASES DE DIÁLOGO (AÑADIR) ---
 
 class AddOTWindow(QDialog):
