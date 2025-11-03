@@ -1,0 +1,178 @@
+/* =================================================================
+   BASE Y FUENTES
+   ================================================================= */
+
+/* Fondo general de las ventanas */
+QMainWindow, QDialog { 
+    background-color: #F0F3F4; /* Gris Claro/Plata */
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333333;
+}
+
+/* Campos de texto y entrada */
+QLineEdit, QComboBox {
+    padding: 8px;
+    border: 1px solid #BDC3C7; /* Gris medio */
+    border-radius: 4px;
+    background-color: white;
+    color: #333333; /* Texto negro para los campos de entrada */
+}
+QLineEdit:focus, QComboBox:focus {
+    border: 1px solid #1B365D; /* Azul Profundo al enfocar */
+}
+
+
+/* =================================================================
+   CABECERA Y NAVEGACIÓN
+   ================================================================= */
+
+/* Contenedor de botones de navegación (La franja de arriba) */
+#header_buttons_container {
+    background-color: #1B365D; /* Azul Profundo/Marino */
+    padding: 0;
+}
+
+/* Botones de navegación (Inicio, Ordenes, Partes, etc.) */
+QPushButton { 
+    background-color: #1B365D;
+    color: white; 
+    border: none; 
+    padding: 12px 15px; /* Más padding para que sean más anchos */
+    border-radius: 0px; 
+    font-weight: bold;
+    min-width: 120px;
+    margin: 0;
+}
+
+/* Efecto al pasar el mouse por los botones de navegación */
+QPushButton:hover { 
+    background-color: #294D75; /* Tono de azul ligeramente más claro */
+}
+
+/* Botón activo/seleccionado (resaltado con color corporativo) */
+QPushButton:checked { 
+    background-color: #16A085; /* Verde azulado que contrasta con el azul */
+    border-bottom: 3px solid #E74C3C; /* Línea roja de acento */
+    font-weight: bold;
+}
+
+
+/* =================================================================
+   BOTONES DE ACCIÓN ESPECIALES
+   ================================================================= */
+
+/* Botón de "Agregar" / "Guardar" / "Aceptar" (Acción Positiva) */
+#add_button { 
+    background-color: #27AE60; /* Verde Éxito */
+    color: white;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 10px 20px;
+}
+#add_button:hover { 
+    background-color: #1F8E4E; 
+}
+
+/* Botón de "Administración" y "Cerrar Sesión" (Acción Crítica o de Salida) */
+#admin_button, QPushButton[text="🚪 Cerrar Sesión"] {
+    background-color: #E74C3C; /* Rojo Alerta */
+    font-weight: bold;
+    border-radius: 0px;
+}
+#admin_button:hover, QPushButton[text="🚪 Cerrar Sesión"]:hover { 
+    background-color: #C0392B; 
+}
+
+
+/* =================================================================
+   TÍTULOS Y MENÚS
+   ================================================================= */
+
+/* Títulos principales de las vistas */
+#title_label { 
+    font-size: 24px; 
+    font-weight: bold; 
+    color: #1B365D; /* Títulos en Azul Profundo */
+    padding: 10px 0; 
+    border-bottom: 2px solid #D5DBDB; /* Línea de separación gris sutil */
+    margin-bottom: 10px;
+}
+
+/* Menús desplegables (submenús de navegación) */
+QMenu {
+    background-color: #FFFFFF;
+    border: 1px solid #BDC3C7;
+    padding: 5px;
+}
+QMenu::item {
+    padding: 8px 25px 8px 10px;
+    color: #333333;
+}
+QMenu::item:selected {
+    background-color: #E6EEF5; /* Gris azulado suave al seleccionar */
+    color: #1B365D;
+}
+QMenu::separator {
+    height: 1px;
+    background-color: #ECF0F1;
+    margin: 5px 0;
+}
+
+/* =================================================================
+   TABLAS (QTableWidget)
+   ================================================================= */
+
+QTableWidget {
+    background-color: white; 
+    border: 1px solid #BDC3C7;
+    gridline-color: #BDBDBD; /* Líneas de la cuadrícula en gris */
+    selection-background-color: #D3E0E8; /* Resaltar filas al seleccionar */
+    selection-color: #1B365D;
+    color: #333333; /* Texto negro en las tablas */
+}
+
+/* Items de las tablas */
+QTableWidget::item {
+    color: #333333; /* Texto negro en las celdas */
+    padding: 5px;
+}
+
+/* Cabecera de la tabla (Nombres de las columnas) */
+QHeaderView::section {
+    background-color: #DDE1E3; /* Gris claro */
+    color: #333333;
+    padding: 6px;
+    border: 1px solid #BDC3C7;
+    font-weight: bold;
+}
+
+/* ComboBox dentro de las celdas de la tabla (Estatus) */
+QTableWidget QComboBox {
+    border: 1px solid #BDC3C7;
+    padding: 4px;
+    color: #333333; /* Texto negro en los combobox de la tabla */
+}
+
+/* =================================================================
+   MENSAJES Y DIÁLOGOS (QMessageBox, QDialog)
+   ================================================================= */
+
+/* Asegurar que todos los textos en diálogos sean negros */
+QMessageBox {
+    background-color: white;
+    color: #333333;
+}
+
+QMessageBox QLabel {
+    color: #333333; /* Texto negro en los mensajes */
+}
+
+QDialog QLabel {
+    color: #333333; /* Texto negro en todos los diálogos */
+}
+
+/* Placeholder text en los campos de entrada */
+QLineEdit::placeholder {
+    color: #7F8C8D; /* Gris para el texto de placeholder */
+}
